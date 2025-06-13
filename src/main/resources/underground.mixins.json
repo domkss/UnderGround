@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "dev.domkss.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ChunkGeneratorMixin",
+    "MinecraftServerMixin",
+    "PlayerManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}
