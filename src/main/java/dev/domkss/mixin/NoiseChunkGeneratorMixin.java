@@ -8,6 +8,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.ChunkRegion;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
@@ -29,9 +30,16 @@ public abstract class NoiseChunkGeneratorMixin {
 
     @Inject(
             method = "buildSurface(Lnet/minecraft/world/ChunkRegion;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/world/gen/noise/NoiseConfig;Lnet/minecraft/world/chunk/Chunk;)V",
-            at = @At("HEAD")
+            at = @At("TAIL")
     )
     public void makeUndergroundWorld(ChunkRegion region, StructureAccessor structures, NoiseConfig noiseConfig, Chunk chunk, CallbackInfo ci) {
+
+
+        //Skip if this is not Overworld
+        if (!region.toServerWorld().getRegistryKey().equals(World.OVERWORLD)) {
+            return;
+        }
+
 
         int bottomY = chunk.getBottomY();
         int topY = chunk.getTopYInclusive();
@@ -46,7 +54,9 @@ public abstract class NoiseChunkGeneratorMixin {
                     if (y == bottomY || y == topY) {
                         chunk.setBlockState(pos, Blocks.BEDROCK.getDefaultState(), false);
                     } else {
-                        chunk.setBlockState(pos, Blocks.STONE.getDefaultState(), false);
+                        if (chunk.getBlockState(pos).getBlock() == Blocks.AIR) {
+                            chunk.setBlockState(pos, Blocks.STONE.getDefaultState(), false);
+                        }
                     }
                 }
             }
@@ -56,17 +66,16 @@ public abstract class NoiseChunkGeneratorMixin {
     }
 
 
-
     @Inject(method = "populateEntities", at = @At("TAIL"))
     private void onPopulateEntities(ChunkRegion region, CallbackInfo ci) {
         // If this chunk contains spawn, clear a safe air pocket around spawn underground
-        clearSpawnArea(region, region.getCenterPos(),UnderGround.config.getSpawnPos());
+        clearSpawnArea(region, region.getCenterPos(), UnderGround.config.getSpawnPos());
     }
 
 
     @Unique
     private void clearSpawnArea(ChunkRegion region, ChunkPos currentChunkPos, BlockPos spawnPos) {
-        Chunk chunk = region.getChunk(currentChunkPos.x,currentChunkPos.z);
+        Chunk chunk = region.getChunk(currentChunkPos.x, currentChunkPos.z);
 
         int dx = Math.abs(currentChunkPos.x - spawnPos.getX());
         int dz = Math.abs(currentChunkPos.z - spawnPos.getZ());
@@ -104,7 +113,8 @@ public abstract class NoiseChunkGeneratorMixin {
                             (currentChunkPos.z - spawnPos.getZ() == -1 && z == chunkStartZ) ||
                             (currentChunkPos.z - spawnPos.getZ() == 1 && z == chunkEndZ)
                     ) {
-                        if(!region.getFluidState(pos).isEmpty()) chunk.setBlockState(pos, Blocks.ANDESITE.getDefaultState(), false);
+                        if (!region.getFluidState(pos).isEmpty())
+                            chunk.setBlockState(pos, Blocks.ANDESITE.getDefaultState(), false);
 
                     } else {
                         chunk.setBlockState(pos, Blocks.AIR.getDefaultState(), false);
