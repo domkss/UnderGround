@@ -68,28 +68,30 @@ public abstract class NoiseChunkGeneratorMixin {
 
     @Inject(method = "populateEntities", at = @At("TAIL"))
     private void onPopulateEntities(ChunkRegion region, CallbackInfo ci) {
+
         // If this chunk contains spawn, clear a safe air pocket around spawn underground
+        // vertical radius
         clearSpawnArea(region, region.getCenterPos(), UnderGround.config.getSpawnPos());
+
     }
 
 
     @Unique
     private void clearSpawnArea(ChunkRegion region, ChunkPos currentChunkPos, BlockPos spawnPos) {
-        Chunk chunk = region.getChunk(currentChunkPos.x, currentChunkPos.z);
-
         int dx = Math.abs(currentChunkPos.x - spawnPos.getX());
         int dz = Math.abs(currentChunkPos.z - spawnPos.getZ());
-
-
         if (dx > 1 || dz > 1) return; // Skip chunks outside the 3x3 area
 
-        int radiusY = 5; // vertical radius
+        Chunk chunk = region.getChunk(currentChunkPos.x, currentChunkPos.z);
+
+
         int chunkStartX = currentChunkPos.getStartX();
         int chunkStartZ = currentChunkPos.getStartZ();
 
         int chunkEndX = chunkStartX + 15;
         int chunkEndZ = chunkStartZ + 15;
         BlockPos.Mutable pos = new BlockPos.Mutable();
+        int radiusY = UnderGround.config.getSpawnRadiusY();
 
 
         // Clear the entire chunk in Y +/- radius
@@ -125,4 +127,6 @@ public abstract class NoiseChunkGeneratorMixin {
         }
 
     }
+
+
 }
