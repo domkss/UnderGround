@@ -16,8 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MinecraftServerMixin {
 
 
-    @Shadow public abstract ServerWorld getOverworld();
-
     @Inject(method = "setupSpawn", at = @At("TAIL"))
     private static void onSetupSpawn(ServerWorld world, ServerWorldProperties worldProperties, boolean bonusChest, boolean debugWorld, CallbackInfo ci) {
         if(!debugWorld){
@@ -27,14 +25,5 @@ public abstract class MinecraftServerMixin {
         }
 
     }
-
-    @Inject(method = "prepareStartRegion", at = @At("TAIL"))
-    private void onPrepareStartRegion(WorldGenerationProgressListener worldGenerationProgressListener, CallbackInfo ci) {
-        ServerWorld serverWorld = this.getOverworld();
-        BlockPos blockPos = serverWorld.getSpawnPos();
-        UnderGround.LOGGER.info("[UnderGroundMod] Spawn position read: {}", blockPos);
-
-    }
-
 
 }

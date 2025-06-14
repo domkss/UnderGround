@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "underground:item/glowing_unbreakable_stone"
+  }
+}

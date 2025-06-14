@@ -1,5 +1,6 @@
 package dev.domkss;
 
+import dev.domkss.blocks.ModBlocks;
 import dev.domkss.config.ModConfig;
 import net.fabricmc.api.ModInitializer;
 
@@ -16,7 +17,7 @@ public class UnderGround implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		config=new ModConfig();
-
+		ModBlocks.registerAll();
 		LOGGER.info("[UndergroundMod] Initialized!");
 	}
 

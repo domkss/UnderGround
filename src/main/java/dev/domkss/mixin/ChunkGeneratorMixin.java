@@ -1,6 +1,8 @@
 package dev.domkss.mixin;
 
 import dev.domkss.UnderGround;
+import dev.domkss.blocks.ModBlocks;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -80,12 +82,20 @@ public abstract class ChunkGeneratorMixin {
 		int chunkEndZ = chunkStartZ + 15;
 
 		BlockPos.Mutable pos = new BlockPos.Mutable();
+		Block lightBlock = ModBlocks.GLOWING_UNBREAKABLE_STONE;
 
 		for (int x = chunkStartX; x <= chunkEndX; x++) {
 			for (int y = spawnPos.getY() - radiusY; y <= spawnPos.getY() + radiusY; y++) {
 				for (int z = chunkStartZ; z <= chunkEndZ; z++) {
 					pos.set(x, y, z);
-					chunk.setBlockState(pos, Blocks.AIR.getDefaultState(), false);
+
+					//Bottom Layer of spawn make a platform
+					if(y == spawnPos.getY() - radiusY){
+						chunk.setBlockState(pos, lightBlock.getDefaultState(), false);
+					}else{
+						chunk.setBlockState(pos, Blocks.AIR.getDefaultState(), false);
+					}
+
 				}
 			}
 		}
