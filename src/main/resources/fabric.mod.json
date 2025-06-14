@@ -3,15 +3,14 @@
 	"id": "underground",
 	"version": "${version}",
 	"name": "UnderGround",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "You are buried alive",
 	"authors": [
-		"Me!"
+		"Dominik Kiss"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/domkss/UnderGround"
 	},
-	"license": "CC0-1.0",
+	"license": "All Rights Reserved",
 	"icon": "assets/underground/icon.png",
 	"environment": "*",
 	"entrypoints": {
