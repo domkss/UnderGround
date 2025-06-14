@@ -3,9 +3,11 @@
   "package": "dev.domkss.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "MinecraftServerMixin",
-    "NoiseChunkGeneratorMixin",
-    "PlayerManagerMixin"
+    "recipe.ServerRecipeManagerMixin",
+    "recipe.ShapedRecipeAccessor",
+    "worldgen.MinecraftServerMixin",
+    "worldgen.NoiseChunkGeneratorMixin",
+    "worldgen.PlayerManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

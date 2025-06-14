@@ -1,4 +1,4 @@
-package dev.domkss.mixin;
+package dev.domkss.mixin.worldgen;
 
 import dev.domkss.UnderGround;
 import dev.domkss.blocks.ModBlocks;

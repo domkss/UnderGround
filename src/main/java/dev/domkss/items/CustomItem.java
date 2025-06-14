@@ -1,20 +1,20 @@
-package dev.domkss.blocks;
+package dev.domkss.items;
 
-import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 
-public abstract class CustomBlock extends Block {
-
+public class CustomItem extends Item {
 
     protected Identifier identifier;
-    protected RegistryKey<ItemGroup> itemGroup;
+    protected RegistryKey <ItemGroup> itemGroup;
 
-    public CustomBlock(Identifier identifier, RegistryKey<ItemGroup> itemGroup, Settings settings) {
+
+    public CustomItem(Identifier identifier, RegistryKey <ItemGroup> itemGroup,Item.Settings settings) {
         super(settings);
-        this.identifier=identifier;
         this.itemGroup=itemGroup;
+        this.identifier=identifier;
     }
 
     protected Identifier getIdentifier(){
@@ -24,6 +24,5 @@ public abstract class CustomBlock extends Block {
     protected RegistryKey <ItemGroup> getItemGroup (){
         return itemGroup;
     }
-
 
 }
