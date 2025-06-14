@@ -1,6 +1,5 @@
 package dev.domkss.blocks;
 
-import dev.domkss.UnderGround;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.registry.RegistryKey;
@@ -21,5 +20,8 @@ public class GlowingUnbreakableStone extends CustomBlock {
                 .requiresTool()
                 .dropsNothing());
     }
+
+
+
 
 }
