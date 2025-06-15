@@ -16,6 +16,9 @@
 	"entrypoints": {
 		"main": [
 			"dev.domkss.UnderGround"
+		],
+		"client": [
+			"dev.domkss.UnderGroundClient"
 		]
 	},
 	"mixins": [
