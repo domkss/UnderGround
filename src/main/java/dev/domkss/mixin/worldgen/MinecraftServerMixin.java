@@ -7,7 +7,6 @@ import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.WorldGenerationProgressListener;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.level.ServerWorldProperties;
@@ -30,34 +29,22 @@ public abstract class MinecraftServerMixin {
         if (!debugWorld) {
             BlockPos spawnPos = UnderGround.config.getSpawnPos();
             worldProperties.setSpawnPos(spawnPos, 0.0F);
+
+            createStarterChest(world,spawnPos);
             UnderGround.LOGGER.info("[UnderGroundMod] Spawn position modified: {}", spawnPos);
         }
 
     }
 
-    @Inject(method = "prepareStartRegion", at = @At("TAIL"))
-    private void afterPrepareStartRegion(WorldGenerationProgressListener worldGenerationProgressListener, CallbackInfo ci) {
-        ServerWorld serverWorld = this.getOverworld();
-        BlockPos spawn = serverWorld.getSpawnPos();
-        createStarterChest(serverWorld, spawn);
-    }
-
-
     @Unique
-    private void createStarterChest(ServerWorld serverWorld, BlockPos spawn) {
-
-        //Todo: Prevent respawning and refilling
-
+    private static void createStarterChest(ServerWorld serverWorld, BlockPos spawn) {
         int spawnRadiusY = UnderGround.config.getSpawnRadiusY();
         BlockPos chestPos = new BlockPos(
                 spawn.getX() + 5,
                 spawn.getY() - spawnRadiusY + 1,
                 spawn.getZ() + 5
         );
-
-
         serverWorld.setBlockState(chestPos, Blocks.CHEST.getDefaultState());
-
 
         BlockEntity be = serverWorld.getBlockEntity(chestPos);
         if (be instanceof ChestBlockEntity chest) {
