@@ -1,6 +1,5 @@
 package dev.domkss.items;
 
-import dev.domkss.UnderGround;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -9,32 +8,36 @@ import net.minecraft.util.Identifier;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class ModItems {
 
-    private static final Map<Identifier, CustomItem> ITEMS = new LinkedHashMap<>();
+    private static final Map<Identifier, Item> ITEMS = new LinkedHashMap<>();
 
     public static Item COPPER_ROD;
+    public static Item RADIOACTIVE_WATER_BUCKET;
 
     static {
-        COPPER_ROD = register(new Copper_Rod(Identifier.of(UnderGround.MOD_ID, "copper_rod")));
+        COPPER_ROD = register(Copper_Rod::new);
+        RADIOACTIVE_WATER_BUCKET = register(Radioactive_Water_Bucket::new);
     }
 
 
-    private static Item register(CustomItem item) {
-        ITEMS.put(item.getIdentifier(), item);
+    private static <T extends Item & CustomItem> Item register(Supplier<T> supplier) {
+        Item item = supplier.get();
+        ITEMS.put(((CustomItem) item).getIdentifier(), item);
         return item;
     }
 
     public static void registerAll() {
-        for (Map.Entry<Identifier, CustomItem> entry : ITEMS.entrySet()) {
+        for (Map.Entry<Identifier, Item> entry : ITEMS.entrySet()) {
             Identifier identifier = entry.getKey();
-            CustomItem item = entry.getValue();
+            Item item = entry.getValue();
 
             //Register the custom item
             Registry.register(Registries.ITEM, identifier, item);
             //Add the item to an item group
-            ItemGroupEvents.modifyEntriesEvent(item.itemGroup).register(content -> {
+            ItemGroupEvents.modifyEntriesEvent(((CustomItem) item).getItemGroup()).register(content -> {
                 content.add(item);
             });
         }

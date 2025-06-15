@@ -1,29 +1,11 @@
 package dev.domkss.blocks;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 
-public abstract class CustomBlock extends Block {
+public interface CustomBlock {
+    Identifier getIdentifier();
 
-
-    protected Identifier identifier;
-    protected RegistryKey<ItemGroup> itemGroup;
-
-    public CustomBlock(Identifier identifier, RegistryKey<ItemGroup> itemGroup, Settings settings) {
-        super(settings);
-        this.identifier=identifier;
-        this.itemGroup=itemGroup;
-    }
-
-    protected Identifier getIdentifier(){
-        return identifier;
-    }
-
-    protected RegistryKey <ItemGroup> getItemGroup (){
-        return itemGroup;
-    }
-
-
+    RegistryKey<ItemGroup> getItemGroup();
 }

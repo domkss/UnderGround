@@ -3,6 +3,7 @@
   "package": "dev.domkss.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "entity.ServerPlayerEntityMixin",
     "recipe.ServerRecipeManagerMixin",
     "recipe.ShapedRecipeAccessor",
     "worldgen.MinecraftServerMixin",

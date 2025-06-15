@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "underground:item/radioactive_water_bucket"
+  }
+}
