@@ -7,7 +7,7 @@ version = project.mod_version
 group = project.maven_group
 
 base {
-	archivesName = project.archives_base_name
+	archivesName = project.archives_base_name +"-mc" + minecraft_version_range
 }
 
 repositories {
@@ -55,6 +55,10 @@ jar {
 	inputs.property "archivesName", project.base.archivesName
 
 	from("LICENSE") {
+		rename { "${it}_${inputs.properties.archivesName}"}
+	}
+
+	from("COPYRIGHT") {
 		rename { "${it}_${inputs.properties.archivesName}"}
 	}
 }

@@ -1,5 +1,6 @@
 package dev.domkss.mixin.entity;
 
+import dev.domkss.UnderGround;
 import dev.domkss.blocks.fluids.ModFluids;
 import dev.domkss.persistance.GenericWorldData;
 import net.minecraft.entity.Entity;
@@ -44,7 +45,7 @@ public abstract class ServerPlayerEntityMixin extends Entity {
 
             persistentData.saveData(new Pair<>(this.getSavedEntityId() + "_radioactive_timer", exposureTime));
 
-            if (exposureTime >= 60) {
+            if (exposureTime >= UnderGround.config.getMaxTickNumberOfRadioactiveWaterExposure()) {
                 LivingEntity player = (LivingEntity) (Object) this;
                 if (!player.hasStatusEffect(StatusEffects.POISON)) {
                     player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0));
