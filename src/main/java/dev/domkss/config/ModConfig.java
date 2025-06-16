@@ -9,12 +9,12 @@ public class ModConfig {
     private Integer spawnRadiusY = 5;
 
 
-    private Double radioactiveWaterChance = 0.5;
+    private Boolean replaceUndergroundOceansWithRadioactiveWater = true;
 
-    private Double radioactiveWaterSpringChance = 0.5;
+    private Double radioactiveWaterSpringChance = 0.3;
 
 
-    private Integer maxTickNumberOfRadioactiveWaterExposure = 120;
+    private Integer maxTickNumberOfRadioactiveWaterExposure = 500;
 
 
     public BlockPos getSpawnPos() {
@@ -29,8 +29,8 @@ public class ModConfig {
         return radioactiveWaterSpringChance;
     }
 
-    public Double getRadioactiveWaterChance() {
-        return radioactiveWaterChance;
+    public Boolean getReplaceUndergroundOceansWithRadioactiveWater() {
+        return replaceUndergroundOceansWithRadioactiveWater;
     }
 
     public Integer getMaxTickNumberOfRadioactiveWaterExposure() {

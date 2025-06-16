@@ -27,19 +27,11 @@ public abstract class AquiferSamplerMixin {
         BlockState result = cir.getReturnValue();
 
         if (result != null && result.getFluidState() != null && result.getFluidState().isOf(Fluids.WATER)) {
-            double chance = positionRandomChance(pos.blockX(), pos.blockY(), pos.blockZ());
-            if (chance < UnderGround.config.getRadioactiveWaterChance()) {
+            if (UnderGround.config.getReplaceUndergroundOceansWithRadioactiveWater()) {
                 cir.setReturnValue(ModBlocks.RADIOACTIVE_WATER_BLOCK.getDefaultState());
             }
 
         }
     }
-
-    @Unique
-    private static double positionRandomChance(int x, int y, int z) {
-        long seed = (((long) x * 3129871L) ^ ((long) y * 116129781L) ^ ((long) z * 132897987541L)) & 0x7FFFFFFFFFFFFFFFL;
-        return (double) (seed % 10000) / 10000.0;
-    }
-
 
 }

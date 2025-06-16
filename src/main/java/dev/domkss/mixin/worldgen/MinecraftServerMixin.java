@@ -44,6 +44,11 @@ public abstract class MinecraftServerMixin {
         BlockEntity be = serverWorld.getBlockEntity(chestPos);
         if (be instanceof ChestBlockEntity chest) {
             chest.setStack(0, new ItemStack(Items.WOODEN_PICKAXE));
+            chest.setStack(1, new ItemStack(Items.WOODEN_PICKAXE));
+            chest.setStack(2, new ItemStack(Items.WOODEN_PICKAXE));
+            chest.setStack(3, new ItemStack(Items.WOODEN_PICKAXE));
+            chest.setStack(4, new ItemStack(Items.WOODEN_PICKAXE));
+            chest.setStack(5, new ItemStack(Items.WOODEN_PICKAXE));
         }
 
         UnderGround.LOGGER.info("Starter chest placed in prepareStartRegion at {}", chestPos);
