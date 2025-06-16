@@ -6,9 +6,11 @@
     "entity.ServerPlayerEntityMixin",
     "recipe.ServerRecipeManagerMixin",
     "recipe.ShapedRecipeAccessor",
+    "worldgen.AquiferSamplerMixin",
     "worldgen.MinecraftServerMixin",
     "worldgen.NoiseChunkGeneratorMixin",
-    "worldgen.PlayerManagerMixin"
+    "worldgen.PlayerManagerMixin",
+    "worldgen.SpringFeatureMixin"
   ],
   "injectors": {
     "defaultRequire": 1
