@@ -14,7 +14,7 @@ public class ModConfig {
     private Double radioactiveWaterSpringChance = 0.3;
 
 
-    private Integer maxTickNumberOfRadioactiveWaterExposure = 500;
+    private Integer maxTickNumberOfRadioactiveWaterExposure = 400;
 
 
     public BlockPos getSpawnPos() {

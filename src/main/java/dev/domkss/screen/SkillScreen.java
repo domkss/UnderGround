@@ -21,26 +21,26 @@ public class SkillScreen extends Screen {
     public SkillScreen() {
         super(Text.of("Skills"));
         // Example stats
-        stats.add(new StatEntry("Health", Identifier.of("minecraft", "textures/item/apple.png")));
-        stats.add(new StatEntry("Speed", Identifier.of("minecraft", "textures/item/sugar.png")));
-        stats.add(new StatEntry("Mining", Identifier.of("minecraft", "textures/item/iron_pickaxe.png")));
-        stats.add(new StatEntry("Strength", Identifier.of("minecraft", "textures/item/iron_sword.png")));
-        stats.add(new StatEntry("Luck", Identifier.of("minecraft", "textures/item/rabbit_foot.png")));
-        stats.add(new StatEntry("Defense", Identifier.of("minecraft", "textures/item/shield.png")));
+        stats.add(new StatEntry("Health",20, Identifier.of("minecraft", "textures/item/apple.png")));
+        stats.add(new StatEntry("Speed",20, Identifier.of("minecraft", "textures/item/sugar.png")));
+        stats.add(new StatEntry("Mining",20, Identifier.of("minecraft", "textures/item/iron_pickaxe.png")));
+        stats.add(new StatEntry("Strength",20, Identifier.of("minecraft", "textures/item/iron_sword.png")));
+        stats.add(new StatEntry("Luck",20, Identifier.of("minecraft", "textures/item/rabbit_foot.png")));
+        stats.add(new StatEntry("Defense",20, Identifier.of("minecraft", "textures/item/shield.png")));
         // Add as many as needed
-        stats.add(new StatEntry("Health", Identifier.of("minecraft", "textures/item/apple.png")));
-        stats.add(new StatEntry("Speed", Identifier.of("minecraft", "textures/item/sugar.png")));
-        stats.add(new StatEntry("Mining", Identifier.of("minecraft", "textures/item/iron_pickaxe.png")));
-        stats.add(new StatEntry("Strength", Identifier.of("minecraft", "textures/item/iron_sword.png")));
-        stats.add(new StatEntry("Luck", Identifier.of("minecraft", "textures/item/rabbit_foot.png")));
-        stats.add(new StatEntry("Defense", Identifier.of("minecraft", "textures/item/shield.png")));
+        stats.add(new StatEntry("Health",20, Identifier.of("minecraft", "textures/item/apple.png")));
+        stats.add(new StatEntry("Speed",20, Identifier.of("minecraft", "textures/item/sugar.png")));
+        stats.add(new StatEntry("Mining",20, Identifier.of("minecraft", "textures/item/iron_pickaxe.png")));
+        stats.add(new StatEntry("Strength",20, Identifier.of("minecraft", "textures/item/iron_sword.png")));
+        stats.add(new StatEntry("Luck",20, Identifier.of("minecraft", "textures/item/rabbit_foot.png")));
+        stats.add(new StatEntry("Defense",20, Identifier.of("minecraft", "textures/item/shield.png")));
 
-        stats.add(new StatEntry("Health", Identifier.of("minecraft", "textures/item/apple.png")));
-        stats.add(new StatEntry("Speed", Identifier.of("minecraft", "textures/item/sugar.png")));
-        stats.add(new StatEntry("Mining", Identifier.of("minecraft", "textures/item/iron_pickaxe.png")));
-        stats.add(new StatEntry("Strength", Identifier.of("minecraft", "textures/item/iron_sword.png")));
-        stats.add(new StatEntry("Luck", Identifier.of("minecraft", "textures/item/rabbit_foot.png")));
-        stats.add(new StatEntry("Defense", Identifier.of("minecraft", "textures/item/shield.png")));
+        stats.add(new StatEntry("Health",20, Identifier.of("minecraft", "textures/item/apple.png")));
+        stats.add(new StatEntry("Speed",20, Identifier.of("minecraft", "textures/item/sugar.png")));
+        stats.add(new StatEntry("Mining",20, Identifier.of("minecraft", "textures/item/iron_pickaxe.png")));
+        stats.add(new StatEntry("Strength",20, Identifier.of("minecraft", "textures/item/iron_sword.png")));
+        stats.add(new StatEntry("Luck",20, Identifier.of("minecraft", "textures/item/rabbit_foot.png")));
+        stats.add(new StatEntry("Defense",20, Identifier.of("minecraft", "textures/item/shield.png")));
     }
 
     @Override
@@ -118,17 +118,17 @@ public class SkillScreen extends Screen {
     private void drawStatEntry(DrawContext context, StatEntry entry, int x, int y) {
 
         // Background
-        context.fill(x, y, x + 130, y + 29, 0xe1d8dd7d);
+        context.fill(x, y, x + 130, y + 29, 0xf5d5270d);
 
         // Icon
         context.drawTexture(RenderLayer::getGuiTextured,entry.icon, x+3, y+5, 0, 0, 16, 16, 16, 16);
 
         // Name and value
         context.drawText(textRenderer, Text.of(entry.name), x + 23, y+10, 0x000000, false);
-        context.drawText(textRenderer, Text.of(String.valueOf(entry.value)), x + 80, y+10, 0x000000, false);
+        context.drawText(textRenderer, Text.of(String.valueOf(entry.value)+"/"+String.valueOf(entry.maxValue)), x + 70, y+10, 0x000000, false);
 
         //Plus button
-        context.drawTexture(RenderLayer::getGuiTextured, PLUS_BUTTON, x + 100, y+10, 0, 0, 9, 9, 9, 9);
+        context.drawTexture(RenderLayer::getGuiTextured, PLUS_BUTTON, x + 110, y+10, 0, 0, 9, 9, 9, 9);
 
     }
 
@@ -155,7 +155,7 @@ public class SkillScreen extends Screen {
             int y = contentStartY + (row * entryHeight) - (scrollOffset % entryHeight);
 
             // If click is inside + button area
-            if (mouseX >= x + 100 && mouseX <= x + 109 && mouseY >= y+10 && mouseY <= y + 19) {
+            if (mouseX >= x + 110 && mouseX <= x + 119 && mouseY >= y+10 && mouseY <= y + 19) {
                 stats.get(statIndex).value++;
                 return true;
             }

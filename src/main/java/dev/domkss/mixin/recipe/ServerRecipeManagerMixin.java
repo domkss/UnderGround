@@ -1,6 +1,7 @@
 package dev.domkss.mixin.recipe;
 
 import dev.domkss.items.ModItems;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.*;
@@ -12,10 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Mixin(ServerRecipeManager.class)
 public abstract class ServerRecipeManagerMixin {
@@ -28,6 +26,13 @@ public abstract class ServerRecipeManagerMixin {
         cir.setReturnValue(modifyPreparedRecipes(original));
     }
 
+
+    private static final Set<Item> TORCH_ITEMS = Set.of(
+            Items.TORCH,
+            Items.SOUL_TORCH,
+            Items.REDSTONE_TORCH
+    );
+
     @Unique
     private PreparedRecipes modifyPreparedRecipes(PreparedRecipes original) {
 
@@ -38,9 +43,11 @@ public abstract class ServerRecipeManagerMixin {
 
             // only inspect crafting recipes
             if (recipe instanceof ShapedRecipe shapedRecipe) {
-                if (shapedRecipe.getCategory().asString().equals("equipment")) {
+                if (shapedRecipe.getCategory().asString().equals("equipment")||
+                        TORCH_ITEMS.contains(((ShapedRecipeAccessor) shapedRecipe).getResult().getItem())) {
                     RawShapedRecipe raw = ((ShapedRecipeAccessor) shapedRecipe).getRaw();
                     RawShapedRecipe newRaw = replaceSticksInRawRecipe(raw);
+
 
                     ShapedRecipe newRecipe = new ShapedRecipe(shapedRecipe.getGroup(), shapedRecipe.getCategory(), newRaw,
                             shapedRecipe.craft(null, null));
