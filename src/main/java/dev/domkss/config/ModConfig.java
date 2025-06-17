@@ -1,24 +1,30 @@
 package dev.domkss.config;
 
+import dev.domkss.jconfiglib.ConfigField;
 import net.minecraft.util.math.BlockPos;
 
 public class ModConfig {
 
-    private BlockPos spawnPos = new BlockPos(0, 150, 0);
+    @ConfigField
+    private String spawnPos = "0,150,0";
 
+    @ConfigField
     private Integer spawnRadiusY = 5;
 
-
+    @ConfigField
     private Boolean replaceUndergroundOceansWithRadioactiveWater = true;
 
+    @ConfigField
     private Double radioactiveWaterSpringChance = 0.3;
 
-
+    @ConfigField
     private Integer maxTickNumberOfRadioactiveWaterExposure = 400;
 
 
     public BlockPos getSpawnPos() {
-        return spawnPos;
+        String [] positions=spawnPos.split(",");
+        if(positions.length<3) return new BlockPos(0, 150, 0);
+        return new BlockPos(Integer.parseInt(positions[0]),Integer.parseInt(positions[1]),Integer.parseInt(positions[2]));
     }
 
     public Integer getSpawnRadiusY() {

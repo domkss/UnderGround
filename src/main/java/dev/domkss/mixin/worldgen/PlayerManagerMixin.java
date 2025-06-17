@@ -24,7 +24,7 @@ public class PlayerManagerMixin {
             player.refreshPositionAndAngles(spawn.getX() + 0.5, spawn.getY(), spawn.getZ() + 0.5, 0.0F, 0.0F);
             player.setSpawnPoint(world.getRegistryKey(), spawn, 0.0f, true, false);
             player.teleport(spawn.getX(), spawn.getY(), spawn.getX(), false);
-            UnderGround.LOGGER.info("[UnderGroundMod] Player forcibly positioned at spawn: {}", spawn);
+            UnderGround.LOGGER.info("[UnderGroundMod] Player forcibly positioned at spawn: " + spawn);
         }
 
     }

@@ -99,10 +99,9 @@ public class SkillScreen extends Screen {
 
     }
 
-    private void drawScrollbar(DrawContext context, int listX, int listY, int listHeight, int scrollOffset, int maxScroll) {
+    private void drawScrollbar(DrawContext context, int listX, int listY, int scrollbarHeight, int scrollOffset, int maxScroll) {
         int scrollbarX = listX + PANEL_WIDTH;
         int scrollbarWidth = 4;
-        int scrollbarHeight = listHeight;
 
         // Track
         context.fill(scrollbarX, listY, scrollbarX + scrollbarWidth, listY + scrollbarHeight, 0xFFAAAAAA);
@@ -118,7 +117,7 @@ public class SkillScreen extends Screen {
     private void drawStatEntry(DrawContext context, StatEntry entry, int x, int y) {
 
         // Background
-        context.fill(x, y, x + 130, y + 29, 0xf5d5270d);
+        context.fill(x, y, x + 130, y + 29, 0x3fd6d6d4);
 
         // Icon
         context.drawTexture(RenderLayer::getGuiTextured,entry.icon, x+3, y+5, 0, 0, 16, 16, 16, 16);

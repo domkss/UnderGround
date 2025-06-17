@@ -26,7 +26,7 @@ public abstract class MinecraftServerMixin {
             worldProperties.setSpawnPos(spawnPos, 0.0F);
 
             createStarterChest(world,spawnPos);
-            UnderGround.LOGGER.info("[UnderGroundMod] Spawn position modified: {}", spawnPos);
+            UnderGround.LOGGER.info("Spawn position modified: " + spawnPos);
         }
 
     }
@@ -51,7 +51,7 @@ public abstract class MinecraftServerMixin {
             chest.setStack(5, new ItemStack(Items.WOODEN_PICKAXE));
         }
 
-        UnderGround.LOGGER.info("Starter chest placed in prepareStartRegion at {}", chestPos);
+        UnderGround.LOGGER.info("Starter chest placed in prepareStartRegion at " + chestPos);
 
     }
 

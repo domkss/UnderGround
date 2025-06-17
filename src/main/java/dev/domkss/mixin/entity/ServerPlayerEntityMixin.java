@@ -2,7 +2,7 @@ package dev.domkss.mixin.entity;
 
 import dev.domkss.UnderGround;
 import dev.domkss.blocks.fluids.ModFluids;
-import dev.domkss.persistance.GenericWorldData;
+import dev.domkss.persistance.PersistentWorldData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -41,7 +41,7 @@ public abstract class ServerPlayerEntityMixin extends Entity {
 
         BlockPos pos = this.getBlockPos();
         FluidState fluid = this.getWorld().getFluidState(pos);
-        GenericWorldData persistentData = GenericWorldData.get(this.getServerWorld());
+        PersistentWorldData persistentData = PersistentWorldData.get(this.getServerWorld());
         Integer exposureTime = (Integer) persistentData.getDataByKey(this.getSavedEntityId() + "_radioactive_timer");
         if (exposureTime == null) exposureTime = 1;
 

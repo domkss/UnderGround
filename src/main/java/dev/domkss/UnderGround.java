@@ -4,30 +4,48 @@ import dev.domkss.blocks.ModBlocks;
 import dev.domkss.blocks.fluids.ModFluids;
 import dev.domkss.config.ModConfig;
 import dev.domkss.items.ModItems;
+import dev.domkss.jconfiglib.ConfigLoader;
 import net.fabricmc.api.ModInitializer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UnderGround implements ModInitializer {
-	public static final String MOD_ID = "underground";
+    public static final String MOD_ID = "underground";
 
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static Logger LOGGER;
 
-	public static ModConfig config;
+    public static ModConfig config;
 
-	@Override
-	public void onInitialize() {
-		config=new ModConfig();
-		ModFluids.loadClass();
-		ModBlocks.registerAll();
-		ModItems.registerAll();
-		LOGGER.info("[UndergroundMod] Initialized!");
-	}
+    @Override
+    public void onInitialize() {
+        initLogger();
 
+        String CONFIG_FILE_PATH = "config/Underground.yaml";
+        ConfigLoader configLoader = new ConfigLoader(CONFIG_FILE_PATH, LOGGER);
+        try {
+            config = configLoader.loadConfig(ModConfig.class);
+        } catch (Exception e) {
+            LOGGER.info(e.toString());
+        }
 
+        ModFluids.loadClass();
+        ModBlocks.registerAll();
+        ModItems.registerAll();
+        LOGGER.info("Successfully loaded!");
+    }
 
-
+    private void initLogger() {
+        System.setProperty("java.util.logging.SimpleFormatter.format",
+                "[%1$tT] [%4$s] [UnderGround] %5$s %n");
+        LOGGER = Logger.getLogger("UnderGround");
+        LOGGER.setLevel(Level.INFO);
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setLevel(LOGGER.getLevel());
+        LOGGER.addHandler(handler);
+        LOGGER.setUseParentHandlers(false);
+    }
 
 
 }

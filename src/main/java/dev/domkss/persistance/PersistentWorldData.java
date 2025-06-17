@@ -13,22 +13,22 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class GenericWorldData extends PersistentState {
+public class PersistentWorldData extends PersistentState {
     private static final String DATA_NAME = "underground_data";
 
-    public static final Type<GenericWorldData> TYPE = new Type<>(
-            GenericWorldData::new,
-            GenericWorldData::fromNbt,
+    public static final Type<PersistentWorldData> TYPE = new Type<>(
+            PersistentWorldData::new,
+            PersistentWorldData::fromNbt,
             DataFixTypes.SAVED_DATA_MAP_INDEX
     );
 
     private final Map<String, Object> data = new HashMap<>();
 
-    public GenericWorldData() {}
+    public PersistentWorldData() {}
 
 
     // Utility to fetch this data object
-    public static GenericWorldData get(ServerWorld world) {
+    public static PersistentWorldData get(ServerWorld world) {
         return world.getPersistentStateManager().getOrCreate(TYPE, DATA_NAME);
     }
 
@@ -55,8 +55,8 @@ public class GenericWorldData extends PersistentState {
         return nbt;
     }
 
-    private static GenericWorldData fromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
-        GenericWorldData data = new GenericWorldData();
+    private static PersistentWorldData fromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+        PersistentWorldData data = new PersistentWorldData();
         for (String key : nbt.getKeys()) {
             NbtElement element = nbt.get(key);
             switch (Objects.requireNonNull(element).getType()) {
