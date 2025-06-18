@@ -5,6 +5,7 @@ import dev.domkss.blocks.fluids.ModFluids;
 import dev.domkss.config.ModConfig;
 import dev.domkss.items.ModItems;
 import dev.domkss.jconfiglib.ConfigLoader;
+import dev.domkss.networking.ServerNetworkHandler;
 import net.fabricmc.api.ModInitializer;
 
 import java.util.logging.ConsoleHandler;
@@ -33,6 +34,8 @@ public class UnderGround implements ModInitializer {
         ModFluids.loadClass();
         ModBlocks.registerAll();
         ModItems.registerAll();
+        ServerNetworkHandler.init();
+
         LOGGER.info("Successfully loaded!");
     }
 

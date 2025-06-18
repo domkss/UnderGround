@@ -1,5 +1,6 @@
 package dev.domkss.screen;
 
+import dev.domkss.networking.payloads.SkillsDataPayload;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.RenderLayer;
@@ -18,29 +19,13 @@ public class SkillScreen extends Screen {
     private int scrollOffset = 0;
     private int maxScroll = 0;
 
-    public SkillScreen() {
+    public SkillScreen(SkillsDataPayload.SkillsData skillsData) {
         super(Text.of("Skills"));
-        // Example stats
-        stats.add(new StatEntry("Health",20, Identifier.of("minecraft", "textures/item/apple.png")));
-        stats.add(new StatEntry("Speed",20, Identifier.of("minecraft", "textures/item/sugar.png")));
-        stats.add(new StatEntry("Mining",20, Identifier.of("minecraft", "textures/item/iron_pickaxe.png")));
-        stats.add(new StatEntry("Strength",20, Identifier.of("minecraft", "textures/item/iron_sword.png")));
-        stats.add(new StatEntry("Luck",20, Identifier.of("minecraft", "textures/item/rabbit_foot.png")));
-        stats.add(new StatEntry("Defense",20, Identifier.of("minecraft", "textures/item/shield.png")));
-        // Add as many as needed
-        stats.add(new StatEntry("Health",20, Identifier.of("minecraft", "textures/item/apple.png")));
-        stats.add(new StatEntry("Speed",20, Identifier.of("minecraft", "textures/item/sugar.png")));
-        stats.add(new StatEntry("Mining",20, Identifier.of("minecraft", "textures/item/iron_pickaxe.png")));
-        stats.add(new StatEntry("Strength",20, Identifier.of("minecraft", "textures/item/iron_sword.png")));
-        stats.add(new StatEntry("Luck",20, Identifier.of("minecraft", "textures/item/rabbit_foot.png")));
-        stats.add(new StatEntry("Defense",20, Identifier.of("minecraft", "textures/item/shield.png")));
 
-        stats.add(new StatEntry("Health",20, Identifier.of("minecraft", "textures/item/apple.png")));
-        stats.add(new StatEntry("Speed",20, Identifier.of("minecraft", "textures/item/sugar.png")));
-        stats.add(new StatEntry("Mining",20, Identifier.of("minecraft", "textures/item/iron_pickaxe.png")));
-        stats.add(new StatEntry("Strength",20, Identifier.of("minecraft", "textures/item/iron_sword.png")));
-        stats.add(new StatEntry("Luck",20, Identifier.of("minecraft", "textures/item/rabbit_foot.png")));
-        stats.add(new StatEntry("Defense",20, Identifier.of("minecraft", "textures/item/shield.png")));
+        stats.add(new StatEntry("Health",skillsData.getHealth(),20, Identifier.of("minecraft", "textures/item/apple.png")));
+        stats.add(new StatEntry("Speed",skillsData.getSpeed(),20, Identifier.of("minecraft", "textures/mob_effect/speed.png")));
+        stats.add(new StatEntry("Haste",skillsData.getHaste(),20, Identifier.of("minecraft", "textures/mob_effect/haste.png")));
+        stats.add(new StatEntry("Armor",skillsData.getArmor(),20, Identifier.of("minecraft", "textures/item/diamond_chestplate.png")));
     }
 
     @Override

@@ -1,6 +1,9 @@
 package dev.domkss;
 
 import dev.domkss.blocks.fluids.ModFluids;
+import dev.domkss.networking.PacketHandler;
+import dev.domkss.networking.payloads.RequestSkillsDataPayload;
+import dev.domkss.networking.payloads.SkillsDataPayload;
 import dev.domkss.screen.SkillScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -19,6 +22,13 @@ public class UnderGroundClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+
+        PacketHandler.registerGlobalClientReceiver(SkillsDataPayload.ID,  (client, payload) -> {
+            MinecraftClient.getInstance().setScreen(new SkillScreen(payload.getSkillsData()));
+        });
+
+
+        //region skill screen
         skillKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.underground.openskill",
                 GLFW.GLFW_KEY_K,
@@ -27,10 +37,13 @@ public class UnderGroundClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (skillKey.wasPressed()) {
-                MinecraftClient.getInstance().setScreen(new SkillScreen());
+                PacketHandler.sendToServer(new RequestSkillsDataPayload());
             }
         });
 
+        //endregion
+
+        //region Radioactive Water
         FluidRenderHandlerRegistry.INSTANCE.register(
                 ModFluids.STILL_RADIOACTIVE_WATER,
                 ModFluids.FLOWING_RADIOACTIVE_WATER,
@@ -41,5 +54,7 @@ public class UnderGroundClient implements ClientModInitializer {
                 ));
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModFluids.STILL_RADIOACTIVE_WATER, ModFluids.FLOWING_RADIOACTIVE_WATER);
+    //endregion
+
     }
 }
