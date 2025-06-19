@@ -18,7 +18,7 @@ public class RadioactiveWaterBlock extends FluidBlock implements CustomBlock {
 
     public RadioactiveWaterBlock() {
         super(ModFluids.STILL_RADIOACTIVE_WATER,
-                        AbstractBlock.Settings.copy(Blocks.WATER)
+                        AbstractBlock.Settings.copy(Blocks.WATER).luminance(state->5)
                                 .registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier)).liquid()
                 );
 
