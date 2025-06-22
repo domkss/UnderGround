@@ -21,16 +21,16 @@ public class ModConfig {
     private Integer maxTickNumberOfRadioactiveWaterExposure = 400;
 
     @ConfigField
-    private Integer maxBonusHealth = 20;
+    private Integer maxBonusHealth = 10;
 
     @ConfigField
-    private Integer maxBonusArmor = 20;
+    private Integer maxBonusArmor = 5;
 
     @ConfigField
-    private Integer maxBonusSpeed = 20;
+    private Integer maxBonusSpeed = 10;
 
     @ConfigField
-    private Integer maxBonusHaste = 20;
+    private Integer maxBonusHaste = 15;
 
 
     public BlockPos getSpawnPos() {

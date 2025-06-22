@@ -4,9 +4,13 @@ import com.mojang.datafixers.util.Pair;
 import dev.domkss.UnderGround;
 import dev.domkss.blocks.fluids.ModFluids;
 import dev.domkss.persistance.PersistentWorldData;
+import dev.domkss.persistance.PlayerStatManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -22,14 +26,27 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends Entity {
+
+    @Unique
+    private static final Identifier HEALTH_MODIFIER_ID = Identifier.of(UnderGround.MOD_ID, "health_modifier");
+    @Unique
+    private static final Identifier ARMOR_MODIFIER_ID = Identifier.of(UnderGround.MOD_ID, "armor_modifier");
+    @Unique
+    private static final Identifier SPEED_MODIFIER_ID = Identifier.of(UnderGround.MOD_ID, "speed_modifier");
+    @Unique
+    private static final Identifier HASTE_MODIFIER_ID = Identifier.of(UnderGround.MOD_ID, "haste_modifier");
+
     @Shadow
     public abstract ServerWorld getServerWorld();
+
 
     public ServerPlayerEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -62,8 +79,8 @@ public abstract class ServerPlayerEntityMixin extends Entity {
                         player.damage(this.getServerWorld(), damageSource, 1000.0F);
                     } else {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 200, 0));
-                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS,200,0));
-                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA,200,0));
+                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 0));
+                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0));
                     }
 
                 }
@@ -82,4 +99,57 @@ public abstract class ServerPlayerEntityMixin extends Entity {
         }
 
     }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void applyStatBonuses(CallbackInfo ci) {
+        ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
+        PlayerStatManager playerStatManager = new PlayerStatManager(player);
+
+
+        // --- HEALTH ---
+        EntityAttributeInstance maxHealthAttr = player.getAttributeInstance(EntityAttributes.MAX_HEALTH);
+        if (maxHealthAttr != null) {
+            maxHealthAttr.removeModifier(HEALTH_MODIFIER_ID);
+
+            maxHealthAttr.addPersistentModifier(
+                    new EntityAttributeModifier(HEALTH_MODIFIER_ID,
+                            playerStatManager.getStat(PlayerStatManager.StatType.HEALTH),
+                            EntityAttributeModifier.Operation.ADD_VALUE));
+        }
+
+        // --- ARMOR ---
+        EntityAttributeInstance armorAttr = player.getAttributeInstance(EntityAttributes.ARMOR);
+        if (armorAttr != null) {
+            armorAttr.removeModifier(ARMOR_MODIFIER_ID);
+
+            armorAttr.addPersistentModifier(
+                    new EntityAttributeModifier(ARMOR_MODIFIER_ID,
+                            playerStatManager.getStat(PlayerStatManager.StatType.ARMOR),
+                            EntityAttributeModifier.Operation.ADD_VALUE));
+        }
+
+        // --- SPEED ---
+        EntityAttributeInstance speedAttr = player.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
+        if (speedAttr != null) {
+            speedAttr.removeModifier(SPEED_MODIFIER_ID);
+            double percentBonus = 0.03 * playerStatManager.getStat(PlayerStatManager.StatType.SPEED); // +3% per level
+            speedAttr.addPersistentModifier(
+                    new EntityAttributeModifier(SPEED_MODIFIER_ID,
+                            percentBonus,
+                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+        }
+
+        // --- HASTE ---
+        EntityAttributeInstance hasteAttr = player.getAttributeInstance(EntityAttributes.BLOCK_BREAK_SPEED);
+        if (hasteAttr != null) {
+            hasteAttr.removeModifier(HASTE_MODIFIER_ID);
+            double percentBonus = 0.04 * playerStatManager.getStat(PlayerStatManager.StatType.HASTE); // +5% per level
+            hasteAttr.addPersistentModifier(
+                    new EntityAttributeModifier(HASTE_MODIFIER_ID,
+                            percentBonus,
+                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+        }
+    }
+
+
 }

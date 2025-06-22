@@ -6,6 +6,7 @@ import dev.domkss.networking.payloads.RequestSkillsDataIncreasePayload;
 import dev.domkss.networking.payloads.RequestSkillsDataPayload;
 import dev.domkss.networking.payloads.SkillsDataPayload;
 import dev.domkss.persistance.PersistentWorldData;
+import dev.domkss.persistance.PlayerStatManager;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -27,12 +28,13 @@ public class ServerNetworkHandler {
 
         PacketHandler.registerGlobalServerReceiver(RequestSkillsDataPayload.ID, ((player, payload) ->
         {
-            PersistentWorldData persistentWorldData = PersistentWorldData.get(Objects.requireNonNull(player.getServer()).getOverworld());
 
-            int health = (int) Optional.ofNullable(persistentWorldData.getDataByKey(player.getUuidAsString() + "_player_stats_bonus_health")).orElse(0);
-            int armor = (int) Optional.ofNullable(persistentWorldData.getDataByKey(player.getUuidAsString() + "_player_stats_bonus_armor")).orElse(0);
-            int speed = (int) Optional.ofNullable(persistentWorldData.getDataByKey(player.getUuidAsString() + "_player_stats_bonus_speed")).orElse(0);
-            int haste = (int) Optional.ofNullable(persistentWorldData.getDataByKey(player.getUuidAsString() + "_player_stats_bonus_haste")).orElse(0);
+            PlayerStatManager playerStatManager = new PlayerStatManager(player);
+
+            int health = playerStatManager.getStat(PlayerStatManager.StatType.HEALTH);
+            int armor = playerStatManager.getStat(PlayerStatManager.StatType.ARMOR);
+            int speed = playerStatManager.getStat(PlayerStatManager.StatType.SPEED);
+            int haste = playerStatManager.getStat(PlayerStatManager.StatType.HASTE);
 
 
             PacketHandler.sendToClient(player, new SkillsDataPayload(
@@ -46,14 +48,16 @@ public class ServerNetworkHandler {
 
         PacketHandler.registerGlobalServerReceiver(RequestSkillsDataIncreasePayload.ID, ((player, payload) -> {
 
-            PersistentWorldData persistentWorldData = PersistentWorldData.get(Objects.requireNonNull(player.getServer()).getOverworld());
             String statKeyToIncrease = payload.statKey().toLowerCase();
-            Integer currentStat = (Integer) persistentWorldData.getDataByKey(player.getUuidAsString() + "_player_stats_bonus_" + statKeyToIncrease);
-            currentStat = currentStat != null ? currentStat : 0;
+
+            PlayerStatManager playerStatManager = new PlayerStatManager(player);
+
+            int currentStat= playerStatManager.getStatByKey(statKeyToIncrease);
 
             if (statIncreaseIsPossible(statKeyToIncrease, currentStat) && consumeEmerald(player, 1)) {
                 currentStat++;
-                persistentWorldData.saveData(new Pair<>(player.getUuidAsString() + "_player_stats_bonus_" + statKeyToIncrease, currentStat));
+                playerStatManager.setStatByKey(statKeyToIncrease,currentStat);
+
                 //Response if the stat increase was successful
                 PacketHandler.sendToClient(player, new RequestSkillsDataIncreasePayload(statKeyToIncrease));
             }else{
