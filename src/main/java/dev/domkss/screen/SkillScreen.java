@@ -22,10 +22,10 @@ public class SkillScreen extends Screen {
     public SkillScreen(SkillsDataPayload.SkillsData skillsData) {
         super(Text.of("Skills"));
 
-        stats.add(new StatEntry("Health",skillsData.getHealth(),20, Identifier.of("minecraft", "textures/item/apple.png")));
-        stats.add(new StatEntry("Speed",skillsData.getSpeed(),20, Identifier.of("minecraft", "textures/mob_effect/speed.png")));
-        stats.add(new StatEntry("Haste",skillsData.getHaste(),20, Identifier.of("minecraft", "textures/mob_effect/haste.png")));
-        stats.add(new StatEntry("Armor",skillsData.getArmor(),20, Identifier.of("minecraft", "textures/item/diamond_chestplate.png")));
+        stats.add(new StatEntry("Health",skillsData.health(),20, Identifier.of("minecraft", "textures/item/apple.png")));
+        stats.add(new StatEntry("Speed",skillsData.speed(),20, Identifier.of("minecraft", "textures/mob_effect/speed.png")));
+        stats.add(new StatEntry("Haste",skillsData.haste(),20, Identifier.of("minecraft", "textures/mob_effect/haste.png")));
+        stats.add(new StatEntry("Armor",skillsData.armor(),20, Identifier.of("minecraft", "textures/item/diamond_chestplate.png")));
     }
 
     @Override

@@ -24,7 +24,7 @@ public class UnderGroundClient implements ClientModInitializer {
     public void onInitializeClient() {
 
         PacketHandler.registerGlobalClientReceiver(SkillsDataPayload.ID,  (client, payload) -> {
-            MinecraftClient.getInstance().setScreen(new SkillScreen(payload.getSkillsData()));
+            MinecraftClient.getInstance().setScreen(new SkillScreen(payload.skillsData()));
         });
 
 
