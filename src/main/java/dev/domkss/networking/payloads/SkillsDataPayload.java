@@ -1,5 +1,6 @@
 package dev.domkss.networking.payloads;
 
+import com.mojang.datafixers.util.Pair;
 import dev.domkss.UnderGround;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -15,21 +16,33 @@ public record SkillsDataPayload(
     public static final PacketCodec<PacketByteBuf, SkillsDataPayload> CODEC = new PacketCodec<PacketByteBuf, SkillsDataPayload>() {
         @Override
         public void encode(PacketByteBuf buf, SkillsDataPayload payload) {
-            buf.writeInt(payload.skillsData.health());
-            buf.writeInt(payload.skillsData.armor());
-            buf.writeInt(payload.skillsData.speed());
-            buf.writeInt(payload.skillsData.haste());
+            buf.writeInt(payload.skillsData.health.getFirst());
+            buf.writeInt(payload.skillsData.health.getSecond());
+            buf.writeInt(payload.skillsData.armor.getFirst());
+            buf.writeInt(payload.skillsData.armor.getSecond());
+            buf.writeInt(payload.skillsData.speed.getFirst());
+            buf.writeInt(payload.skillsData.speed.getSecond());
+            buf.writeInt(payload.skillsData.haste.getFirst());
+            buf.writeInt(payload.skillsData.haste.getSecond());
 
         }
 
         @Override
         public SkillsDataPayload decode(PacketByteBuf buf) {
-            int health = buf.readInt();
-            int armor = buf.readInt();
-            int speed = buf.readInt();
-            int haste = buf.readInt();
+            int bonus_health = buf.readInt();
+            int max_bonus_health = buf.readInt();
 
-            return new SkillsDataPayload(new SkillsData(health, armor, speed, haste));
+            int bonus_armor = buf.readInt();
+            int max_bonus_armor = buf.readInt();
+
+            int bonus_speed = buf.readInt();
+            int max_bonus_speed = buf.readInt();
+
+            int bonus_haste = buf.readInt();
+            int max_bonus_haste = buf.readInt();
+
+            return new SkillsDataPayload(new SkillsData(Pair.of(bonus_health,max_bonus_health), Pair.of(bonus_armor,max_bonus_armor),
+                    Pair.of(bonus_speed,max_bonus_speed), Pair.of(bonus_haste,max_bonus_haste)));
         }
     };
 
@@ -40,7 +53,7 @@ public record SkillsDataPayload(
         return ID;
     }
 
-    public record SkillsData(int health, int armor, int speed, int haste) {}
+    public record SkillsData(Pair<Integer, Integer> health, Pair<Integer, Integer> armor, Pair<Integer, Integer> speed, Pair<Integer, Integer> haste) {}
 }
 
 

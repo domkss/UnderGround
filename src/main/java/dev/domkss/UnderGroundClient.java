@@ -2,6 +2,7 @@ package dev.domkss;
 
 import dev.domkss.blocks.fluids.ModFluids;
 import dev.domkss.networking.PacketHandler;
+import dev.domkss.networking.payloads.RequestSkillsDataIncreasePayload;
 import dev.domkss.networking.payloads.RequestSkillsDataPayload;
 import dev.domkss.networking.payloads.SkillsDataPayload;
 import dev.domkss.screen.SkillScreen;
@@ -19,14 +20,22 @@ import org.lwjgl.glfw.GLFW;
 
 public class UnderGroundClient implements ClientModInitializer {
     private static KeyBinding skillKey;
+    private static SkillScreen skillScreen;
+
+
 
     @Override
     public void onInitializeClient() {
 
         PacketHandler.registerGlobalClientReceiver(SkillsDataPayload.ID,  (client, payload) -> {
-            MinecraftClient.getInstance().setScreen(new SkillScreen(payload.skillsData()));
+            skillScreen=new SkillScreen(payload.skillsData());
+            MinecraftClient.getInstance().setScreen(skillScreen);
         });
 
+        PacketHandler.registerGlobalClientReceiver(RequestSkillsDataIncreasePayload.ID,  (client, payload) -> {
+            skillScreen.onStatIncreased(payload.statKey());
+            //MinecraftClient.getInstance().setScreen(skillScreen);
+        });
 
         //region skill screen
         skillKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(

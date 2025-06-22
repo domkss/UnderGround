@@ -1,5 +1,6 @@
 package dev.domkss.mixin.entity;
 
+import com.mojang.datafixers.util.Pair;
 import dev.domkss.UnderGround;
 import dev.domkss.blocks.fluids.ModFluids;
 import dev.domkss.persistance.PersistentWorldData;
@@ -17,7 +18,6 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -62,6 +62,8 @@ public abstract class ServerPlayerEntityMixin extends Entity {
                         player.damage(this.getServerWorld(), damageSource, 1000.0F);
                     } else {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 200, 0));
+                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS,200,0));
+                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA,200,0));
                     }
 
                 }

@@ -20,11 +20,23 @@ public class ModConfig {
     @ConfigField
     private Integer maxTickNumberOfRadioactiveWaterExposure = 400;
 
+    @ConfigField
+    private Integer maxBonusHealth = 20;
+
+    @ConfigField
+    private Integer maxBonusArmor = 20;
+
+    @ConfigField
+    private Integer maxBonusSpeed = 20;
+
+    @ConfigField
+    private Integer maxBonusHaste = 20;
+
 
     public BlockPos getSpawnPos() {
-        String [] positions=spawnPos.split(",");
-        if(positions.length<3) return new BlockPos(0, 150, 0);
-        return new BlockPos(Integer.parseInt(positions[0]),Integer.parseInt(positions[1]),Integer.parseInt(positions[2]));
+        String[] positions = spawnPos.split(",");
+        if (positions.length < 3) return new BlockPos(0, 150, 0);
+        return new BlockPos(Integer.parseInt(positions[0]), Integer.parseInt(positions[1]), Integer.parseInt(positions[2]));
     }
 
     public Integer getSpawnRadiusY() {
@@ -44,4 +56,19 @@ public class ModConfig {
     }
 
 
+    public Integer getMaxBonusHealth() {
+        return maxBonusHealth;
+    }
+
+    public Integer getMaxBonusArmor() {
+        return maxBonusArmor;
+    }
+
+    public Integer getMaxBonusSpeed() {
+        return maxBonusSpeed;
+    }
+
+    public Integer getMaxBonusHaste() {
+        return maxBonusHaste;
+    }
 }

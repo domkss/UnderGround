@@ -1,12 +1,13 @@
 package dev.domkss.persistance;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.PersistentState;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.util.Pair;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class PersistentWorldData extends PersistentState {
 
     // Save a key-value pair
     public void saveData(Pair<String, Object> pair) {
-        data.put(pair.getLeft(), pair.getRight());
+        data.put(pair.getFirst(), pair.getSecond());
         markDirty();
     }
 

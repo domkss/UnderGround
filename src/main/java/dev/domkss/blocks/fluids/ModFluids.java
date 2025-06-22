@@ -11,6 +11,4 @@ public class ModFluids {
     public static final FlowableFluid STILL_RADIOACTIVE_WATER = Registry.register(Registries.FLUID, Identifier.of(UnderGround.MOD_ID, "radioactive_water"), new RadioactiveWaterFluid.Still());
     public static final FlowableFluid FLOWING_RADIOACTIVE_WATER = Registry.register(Registries.FLUID, Identifier.of(UnderGround.MOD_ID, "flowing_radioactive_water"), new RadioactiveWaterFluid.Flowing());
 
-    public static void loadClass() {
-    }
 }

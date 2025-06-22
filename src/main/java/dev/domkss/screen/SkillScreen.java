@@ -1,5 +1,7 @@
 package dev.domkss.screen;
 
+import dev.domkss.networking.PacketHandler;
+import dev.domkss.networking.payloads.RequestSkillsDataIncreasePayload;
 import dev.domkss.networking.payloads.SkillsDataPayload;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -10,6 +12,7 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SkillScreen extends Screen {
     private final List<StatEntry> stats = new ArrayList<>();
@@ -22,10 +25,11 @@ public class SkillScreen extends Screen {
     public SkillScreen(SkillsDataPayload.SkillsData skillsData) {
         super(Text.of("Skills"));
 
-        stats.add(new StatEntry("Health",skillsData.health(),20, Identifier.of("minecraft", "textures/item/apple.png")));
-        stats.add(new StatEntry("Speed",skillsData.speed(),20, Identifier.of("minecraft", "textures/mob_effect/speed.png")));
-        stats.add(new StatEntry("Haste",skillsData.haste(),20, Identifier.of("minecraft", "textures/mob_effect/haste.png")));
-        stats.add(new StatEntry("Armor",skillsData.armor(),20, Identifier.of("minecraft", "textures/item/diamond_chestplate.png")));
+        stats.add(new StatEntry("Health", skillsData.health().getFirst(), skillsData.health().getSecond(), Identifier.of("minecraft", "textures/item/apple.png")));
+        stats.add(new StatEntry("Armor", skillsData.armor().getFirst(), skillsData.armor().getSecond(), Identifier.of("minecraft", "textures/item/diamond_chestplate.png")));
+        stats.add(new StatEntry("Speed", skillsData.speed().getFirst(), skillsData.speed().getSecond(), Identifier.of("minecraft", "textures/mob_effect/speed.png")));
+        stats.add(new StatEntry("Haste", skillsData.haste().getFirst(), skillsData.haste().getSecond(), Identifier.of("minecraft", "textures/mob_effect/haste.png")));
+
     }
 
     @Override
@@ -40,7 +44,6 @@ public class SkillScreen extends Screen {
         scrollOffset = MathHelper.clamp(scrollOffset, 0, maxScroll);
         return true;
     }
-
 
 
     @Override
@@ -80,7 +83,7 @@ public class SkillScreen extends Screen {
             drawStatEntry(context, stats.get(statIndex), x, y);
         }
 
-        drawScrollbar(context,panelX,contentStartY,entryHeight*visibleRows,scrollOffset,maxScroll);
+        drawScrollbar(context, panelX, contentStartY, entryHeight * visibleRows, scrollOffset, maxScroll);
 
     }
 
@@ -105,14 +108,14 @@ public class SkillScreen extends Screen {
         context.fill(x, y, x + 130, y + 29, 0x3fd6d6d4);
 
         // Icon
-        context.drawTexture(RenderLayer::getGuiTextured,entry.icon, x+3, y+5, 0, 0, 16, 16, 16, 16);
+        context.drawTexture(RenderLayer::getGuiTextured, entry.icon, x + 3, y + 5, 0, 0, 16, 16, 16, 16);
 
         // Name and value
-        context.drawText(textRenderer, Text.of(entry.name), x + 23, y+10, 0x000000, false);
-        context.drawText(textRenderer, Text.of(String.valueOf(entry.value)+"/"+String.valueOf(entry.maxValue)), x + 70, y+10, 0x000000, false);
+        context.drawText(textRenderer, Text.of(entry.name), x + 23, y + 10, 0x000000, false);
+        context.drawText(textRenderer, Text.of(String.valueOf(entry.value) + "/" + String.valueOf(entry.maxValue)), x + 70, y + 10, 0x000000, false);
 
         //Plus button
-        context.drawTexture(RenderLayer::getGuiTextured, PLUS_BUTTON, x + 110, y+10, 0, 0, 9, 9, 9, 9);
+        context.drawTexture(RenderLayer::getGuiTextured, PLUS_BUTTON, x + 110, y + 10, 0, 0, 9, 9, 9, 9);
 
     }
 
@@ -139,9 +142,11 @@ public class SkillScreen extends Screen {
             int y = contentStartY + (row * entryHeight) - (scrollOffset % entryHeight);
 
             // If click is inside + button area
-            if (mouseX >= x + 110 && mouseX <= x + 119 && mouseY >= y+10 && mouseY <= y + 19) {
-                stats.get(statIndex).value++;
-                return true;
+            if (mouseX >= x + 110 && mouseX <= x + 119 && mouseY >= y + 10 && mouseY <= y + 19) {
+                if(stats.get(statIndex).value<stats.get(statIndex).maxValue) {
+                    this.requestStatIncrease(stats.get(statIndex).name);
+                    return true;
+                }
             }
         }
 
@@ -151,5 +156,14 @@ public class SkillScreen extends Screen {
     @Override
     public boolean shouldPause() {
         return false;
+    }
+
+    private void requestStatIncrease(String statKey) {
+        PacketHandler.sendToServer(new RequestSkillsDataIncreasePayload(statKey));
+    }
+
+    public void onStatIncreased(String statKey) {
+        Optional<StatEntry> statEntry = stats.stream().filter(item -> item.name.equalsIgnoreCase(statKey)).findFirst();
+        statEntry.ifPresent(entry -> entry.value++);
     }
 }
