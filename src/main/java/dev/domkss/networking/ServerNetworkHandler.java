@@ -2,10 +2,10 @@ package dev.domkss.networking;
 
 import com.mojang.datafixers.util.Pair;
 import dev.domkss.UnderGround;
+import dev.domkss.items.ModItems;
 import dev.domkss.networking.payloads.RequestSkillsDataIncreasePayload;
 import dev.domkss.networking.payloads.RequestSkillsDataPayload;
 import dev.domkss.networking.payloads.SkillsDataPayload;
-import dev.domkss.persistance.PersistentWorldData;
 import dev.domkss.persistance.PlayerStatManager;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,8 +15,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-import java.util.Objects;
-import java.util.Optional;
 
 public class ServerNetworkHandler {
 
@@ -61,7 +59,7 @@ public class ServerNetworkHandler {
                 //Response if the stat increase was successful
                 PacketHandler.sendToClient(player, new RequestSkillsDataIncreasePayload(statKeyToIncrease));
             }else{
-                player.sendMessage(Text.literal("1 emerald is required to increase " + statKeyToIncrease).formatted(Formatting.RED), false);
+                player.sendMessage(Text.literal("1 stat upgrade item is required to increase " + statKeyToIncrease).formatted(Formatting.RED), false);
             }
 
         }));
@@ -86,7 +84,7 @@ public class ServerNetworkHandler {
         // Count emeralds
         for (int i = 0; i < inv.size(); i++) {
             ItemStack stack = inv.getStack(i);
-            if (stack.getItem() == Items.EMERALD) {
+            if (stack.getItem() == ModItems.STAT_UPGRADE) {
                 emeraldsFound += stack.getCount();
             }
         }
@@ -99,7 +97,7 @@ public class ServerNetworkHandler {
         int toRemove = amount;
         for (int i = 0; i < inv.size(); i++) {
             ItemStack stack = inv.getStack(i);
-            if (stack.getItem() == Items.EMERALD) {
+            if (stack.getItem() == ModItems.STAT_UPGRADE) {
                 int remove = Math.min(stack.getCount(), toRemove);
                 stack.decrement(remove);
                 toRemove -= remove;
