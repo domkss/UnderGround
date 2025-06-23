@@ -33,7 +33,7 @@ public class ModConfig {
     private Integer maxBonusHaste = 15;
 
     @ConfigField
-    private Float statUpgradeSpawnChance = 0.005f;
+    private Float statUpgradeSpawnChance = 0.02f;
 
     public BlockPos getSpawnPos() {
         String[] positions = spawnPos.split(",");
