@@ -24,7 +24,7 @@ public class ModBlocks {
     public static Block RADIOACTIVE_WATER_BLOCK;
 
     static {
-        GLOWING_UNBREAKABLE_STONE = register(GlowingUnbreakableStone::new);
+        GLOWING_UNBREAKABLE_STONE = register(GlowingUnbreakableStoneBlock::new);
         RADIOACTIVE_WATER_BLOCK = register(RadioactiveWaterBlock::new);
     }
 

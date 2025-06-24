@@ -11,13 +11,13 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 
-public class GlowingUnbreakableStone extends Block implements CustomBlock {
+public class GlowingUnbreakableStoneBlock extends Block implements CustomBlock {
 
     private static final Identifier identifier = Identifier.of(UnderGround.MOD_ID, "glowing_unbreakable_stone");
     private static final RegistryKey<ItemGroup> itemGroup = ItemGroups.BUILDING_BLOCKS;
 
 
-    public GlowingUnbreakableStone() {
+    public GlowingUnbreakableStoneBlock() {
         super(AbstractBlock.Settings
                 .create()
                 .mapColor(MapColor.STONE_GRAY)

@@ -11,13 +11,13 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-public class Stat_Upgrade extends Item implements CustomItem, LootInjectable{
+public class StatUpgradeItem extends Item implements CustomItem, LootInjectable{
 
     private static final Identifier identifier = Identifier.of(UnderGround.MOD_ID, "stat_upgrade");
     private static final RegistryKey<ItemGroup> itemGroup = ItemGroups.FUNCTIONAL;
 
 
-    public Stat_Upgrade() {
+    public StatUpgradeItem() {
         super(new Settings()
                 .registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)));
     }

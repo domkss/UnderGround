@@ -7,13 +7,13 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
-public class Radioactive_Water_Bucket extends BucketItem implements CustomItem {
+public class RadioactiveWaterBucketItem extends BucketItem implements CustomItem {
 
     private static final Identifier identifier = Identifier.of(UnderGround.MOD_ID, "radioactive_water_bucket");
     private static final RegistryKey<ItemGroup> itemGroup = ItemGroups.TOOLS;
 
 
-    public Radioactive_Water_Bucket() {
+    public RadioactiveWaterBucketItem() {
         super(ModFluids.STILL_RADIOACTIVE_WATER, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1)
                 .registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)));
     }

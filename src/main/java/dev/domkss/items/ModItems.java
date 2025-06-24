@@ -22,11 +22,13 @@ public class ModItems {
     public static Item COPPER_ROD;
     public static Item RADIOACTIVE_WATER_BUCKET;
     public static Item STAT_UPGRADE;
+    public static Item MATRIX_PICKAXE;
 
     static {
-        COPPER_ROD = register(Copper_Rod::new);
-        RADIOACTIVE_WATER_BUCKET = register(Radioactive_Water_Bucket::new);
-        STAT_UPGRADE = register(Stat_Upgrade::new);
+        COPPER_ROD = register(CopperRodItem::new);
+        RADIOACTIVE_WATER_BUCKET = register(RadioactiveWaterBucketItem::new);
+        STAT_UPGRADE = register(StatUpgradeItem::new);
+        MATRIX_PICKAXE = register(MatrixPickaxeItem::new);
     }
 
 
