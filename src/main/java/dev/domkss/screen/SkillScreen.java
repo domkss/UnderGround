@@ -1,5 +1,7 @@
 package dev.domkss.screen;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import dev.domkss.UnderGround;
 import dev.domkss.networking.PacketHandler;
 import dev.domkss.networking.payloads.RequestSkillsDataIncreasePayload;
 import dev.domkss.networking.payloads.SkillsDataPayload;
@@ -25,7 +27,7 @@ public class SkillScreen extends Screen {
     public SkillScreen(SkillsDataPayload.SkillsData skillsData) {
         super(Text.of("Skills"));
 
-        stats.add(new StatEntry("Health", skillsData.health().getFirst(), skillsData.health().getSecond(), Identifier.of("minecraft", "textures/item/apple.png")));
+        stats.add(new StatEntry("Health", skillsData.health().getFirst(), skillsData.health().getSecond(), Identifier.of("minecraft", "textures/mob_effect/health_boost.png")));
         stats.add(new StatEntry("Armor", skillsData.armor().getFirst(), skillsData.armor().getSecond(), Identifier.of("minecraft", "textures/item/diamond_chestplate.png")));
         stats.add(new StatEntry("Speed", skillsData.speed().getFirst(), skillsData.speed().getSecond(), Identifier.of("minecraft", "textures/mob_effect/speed.png")));
         stats.add(new StatEntry("Haste", skillsData.haste().getFirst(), skillsData.haste().getSecond(), Identifier.of("minecraft", "textures/mob_effect/haste.png")));
@@ -54,12 +56,9 @@ public class SkillScreen extends Screen {
         int panelY = centerY - PANEL_HEIGHT / 2;
 
         // Background
-        Identifier texture = Identifier.of("minecraft", "textures/gui/container/generic_54.png");
-        //context.drawTexture(RenderLayer::getGuiTextured, texture, panelX, panelY, 7, 17, PANEL_WIDTH, PANEL_HEIGHT, 256, 256);
+        Identifier backgroundTexture = Identifier.of(UnderGround.MOD_ID, "textures/gui/skill_screen_background.png");
+        context.drawTexture(RenderLayer::getGuiTextured, backgroundTexture, panelX, panelY, 0, 0, PANEL_WIDTH+10, PANEL_HEIGHT, 310, 240);
 
-        // Summary section
-        context.drawText(textRenderer, Text.of("Total Health: +" + getStatValue("Health")), panelX + 10, panelY + 10, 0x000000, false);
-        context.drawText(textRenderer, Text.of("Total Speed: +" + getStatValue("Speed")), panelX + 10, panelY + 25, 0x000000, false);
 
         // Scrollable content area
         int contentStartY = panelY + 50;
@@ -143,7 +142,7 @@ public class SkillScreen extends Screen {
 
             // If click is inside + button area
             if (mouseX >= x + 110 && mouseX <= x + 119 && mouseY >= y + 10 && mouseY <= y + 19) {
-                if(stats.get(statIndex).value<stats.get(statIndex).maxValue) {
+                if (stats.get(statIndex).value < stats.get(statIndex).maxValue) {
                     this.requestStatIncrease(stats.get(statIndex).name);
                     return true;
                 }
