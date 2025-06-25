@@ -1,30 +1,41 @@
 package dev.domkss.items;
 
 import dev.domkss.UnderGround;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ToolComponent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class MatrixPickaxeItem extends PickaxeItem implements CustomItem {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class MatrixPickaxeItem extends MiningToolItem implements CustomItem {
 
     private static final Identifier identifier = Identifier.of(UnderGround.MOD_ID, "matrix_pickaxe");
     private static final RegistryKey<ItemGroup> itemGroup = ItemGroups.TOOLS;
     private static final ThreadLocal<Boolean> isMiningArea = ThreadLocal.withInitial(() -> false);
-    public static final ToolMaterial NETHERITE_SLOW = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2031, 7.0F, 4.0F, 15, ItemTags.NETHERITE_TOOL_MATERIALS);
+    public static final ToolMaterial MATRIX_PICKAXE_MATERIAL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 4062, 8.0F, 4.0F, 15, ItemTags.NETHERITE_TOOL_MATERIALS);
+    public static RegistryEntryList<Block> EFFECTIVE_BLOCKS = null;
 
     public MatrixPickaxeItem() {
-        super(NETHERITE_SLOW, 1, -2.8F, new Settings().maxCount(1)
-                .registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)));
+        super(MATRIX_PICKAXE_MATERIAL, BlockTags.PICKAXE_MINEABLE,
+                1, -2.8F, new Settings().maxCount(1)
+                        .registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier)));
     }
 
 
@@ -76,6 +87,40 @@ public class MatrixPickaxeItem extends PickaxeItem implements CustomItem {
     @Override
     public RegistryKey<ItemGroup> getItemGroup() {
         return itemGroup;
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        getCombinedList(world);
+    }
+
+    @Override
+    public boolean isCorrectForDrops(ItemStack stack, BlockState state) {
+        return EFFECTIVE_BLOCKS != null && state.isIn(EFFECTIVE_BLOCKS);
+    }
+
+
+    @Override
+    public float getMiningSpeed(ItemStack stack, BlockState state) {
+        return EFFECTIVE_BLOCKS != null && state.isIn(EFFECTIVE_BLOCKS) ? MATRIX_PICKAXE_MATERIAL.speed() : 1.0f;
+    }
+
+
+    private void getCombinedList(World world) {
+
+        if (EFFECTIVE_BLOCKS == null) {
+
+            Registry<Block> blockLookup = world.getRegistryManager().getOrThrow(Registries.BLOCK.getKey());
+
+            List<RegistryEntry<Block>> entries = new ArrayList<>();
+            Consumer<TagKey<Block>> addTagEntries = tag ->
+                    blockLookup.getOptional(tag).ifPresent(list -> list.forEach(entries::add));
+            addTagEntries.accept(BlockTags.PICKAXE_MINEABLE);
+            addTagEntries.accept(BlockTags.AXE_MINEABLE);
+            addTagEntries.accept(BlockTags.SHOVEL_MINEABLE);
+            EFFECTIVE_BLOCKS = RegistryEntryList.of(entries);
+        }
+
     }
 
 

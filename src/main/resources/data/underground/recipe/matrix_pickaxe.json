@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "minecraft:echo_shard",
+  "base": "minecraft:netherite_pickaxe",
+  "result": {
+    "count": 1,
+    "id": "underground:matrix_pickaxe"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

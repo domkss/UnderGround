@@ -25,8 +25,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class NoiseChunkGeneratorMixin {
 
 
-    @Shadow
-    public abstract RegistryEntry<ChunkGeneratorSettings> getSettings();
 
     @Inject(
             method = "buildSurface(Lnet/minecraft/world/ChunkRegion;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/world/gen/noise/NoiseConfig;Lnet/minecraft/world/chunk/Chunk;)V",
@@ -54,7 +52,7 @@ public abstract class NoiseChunkGeneratorMixin {
                     if (y == bottomY || y == topY) {
                         chunk.setBlockState(pos, Blocks.BEDROCK.getDefaultState(), false);
                     } else {
-                        if (chunk.getBlockState(pos).getBlock() == Blocks.AIR) {
+                        if (y>55&&chunk.getBlockState(pos).getBlock() == Blocks.AIR) {
                             chunk.setBlockState(pos, Blocks.STONE.getDefaultState(), false);
                         }
                     }
