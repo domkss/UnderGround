@@ -2,6 +2,7 @@
   "block.underground.glowing_unbreakable_stone": "Glowing Unbreakable Stone",
   "block.underground.radioactive_water_block": "Radioactive Water",
   "item.underground.copper_rod": "Copper Rod",
+  "item.underground.matrix_pickaxe": "Matrix Pickaxe",
   "item.underground.stat_upgrade": "Stat Upgrade",
   "item.underground.radioactive_water_bucket": "Radioactive Water Bucket",
   "death.attack.radiation.message": "%1$s was killed by radiation"
