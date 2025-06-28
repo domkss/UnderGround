@@ -13,7 +13,6 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -29,7 +28,14 @@ public class MatrixPickaxeItem extends MiningToolItem implements CustomItem {
     private static final Identifier identifier = Identifier.of(UnderGround.MOD_ID, "matrix_pickaxe");
     private static final RegistryKey<ItemGroup> itemGroup = ItemGroups.TOOLS;
     private static final ThreadLocal<Boolean> isMiningArea = ThreadLocal.withInitial(() -> false);
-    public static final ToolMaterial MATRIX_PICKAXE_MATERIAL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 4062, 8.0F, 4.0F, 15, ItemTags.NETHERITE_TOOL_MATERIALS);
+    public static final ToolMaterial MATRIX_PICKAXE_MATERIAL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 4062, 8.0F, 4.0F, 15,
+            TagKey.of(
+                    RegistryKeys.ITEM,
+                    Identifier.of(UnderGround.MOD_ID, "amethyst_tool_materials")
+            )
+    );
+
+
     public static RegistryEntryList<Block> EFFECTIVE_BLOCKS = null;
 
     public MatrixPickaxeItem() {
