@@ -9,7 +9,6 @@
     "worldgen.AquiferSamplerMixin",
     "worldgen.ChunkGeneratorMixin",
     "worldgen.MinecraftServerMixin",
-    "worldgen.NoiseChunkGeneratorMixin",
     "worldgen.PlayerManagerMixin",
     "worldgen.SpringFeatureMixin"
   ],
