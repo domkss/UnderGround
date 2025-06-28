@@ -41,6 +41,11 @@ public class ChunkGeneratorMixin {
         int bottomY = chunk.getBottomY();
         int topY = chunk.getTopYInclusive();
 
+        int topWorldBorderY = Math.max(UnderGround.config.getWorldTopY(), UnderGround.config.getSpawnPos().getY() + UnderGround.config.getSpawnRadiusY() + 2);
+
+        if (topWorldBorderY > topY) topWorldBorderY = topY;
+
+
         int chunkStartX = chunk.getPos().getStartX();
         int chunkStartZ = chunk.getPos().getStartZ();
 
@@ -48,7 +53,7 @@ public class ChunkGeneratorMixin {
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
                     BlockPos pos = new BlockPos(chunkStartX + x, y, chunkStartZ + z);
-                    if (y == bottomY || y == topY) {
+                    if (y == bottomY || y >= topWorldBorderY) {
                         chunk.setBlockState(pos, Blocks.BEDROCK.getDefaultState(), false);
                     } else {
                         if (y > 55 && chunk.getBlockState(pos).getBlock() == Blocks.AIR) {

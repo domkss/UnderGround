@@ -6,10 +6,13 @@ import net.minecraft.util.math.BlockPos;
 public class ModConfig {
 
     @ConfigField
-    private String spawnPos = "0,150,0";
+    private String spawnPos = "0,60,0";
 
     @ConfigField
     private Integer spawnRadiusY = 5;
+
+    @ConfigField
+    private Integer worldTopY = 80;
 
     @ConfigField
     private Boolean replaceUndergroundOceansWithRadioactiveWater = true;
@@ -37,9 +40,11 @@ public class ModConfig {
 
     public BlockPos getSpawnPos() {
         String[] positions = spawnPos.split(",");
-        if (positions.length < 3) return new BlockPos(0, 150, 0);
+        if (positions.length < 3) return new BlockPos(0, 60, 0);
         return new BlockPos(Integer.parseInt(positions[0]), Integer.parseInt(positions[1]), Integer.parseInt(positions[2]));
     }
+
+
 
     public Integer getSpawnRadiusY() {
         return spawnRadiusY;
@@ -47,6 +52,10 @@ public class ModConfig {
 
     public Double getRadioactiveWaterSpringChance() {
         return radioactiveWaterSpringChance;
+    }
+
+    public Integer getWorldTopY() {
+        return worldTopY;
     }
 
     public Boolean getReplaceUndergroundOceansWithRadioactiveWater() {
