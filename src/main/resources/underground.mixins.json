@@ -7,6 +7,7 @@
     "recipe.ServerRecipeManagerMixin",
     "recipe.ShapedRecipeAccessor",
     "worldgen.AquiferSamplerMixin",
+    "worldgen.ChunkGeneratorMixin",
     "worldgen.MinecraftServerMixin",
     "worldgen.NoiseChunkGeneratorMixin",
     "worldgen.PlayerManagerMixin",

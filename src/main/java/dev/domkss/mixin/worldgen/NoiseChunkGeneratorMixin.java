@@ -4,18 +4,12 @@ import dev.domkss.UnderGround;
 import dev.domkss.blocks.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.gen.StructureAccessor;
-import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
 import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
-import net.minecraft.world.gen.noise.NoiseConfig;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,45 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(NoiseChunkGenerator.class)
 public abstract class NoiseChunkGeneratorMixin {
-
-
-
-    @Inject(
-            method = "buildSurface(Lnet/minecraft/world/ChunkRegion;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/world/gen/noise/NoiseConfig;Lnet/minecraft/world/chunk/Chunk;)V",
-            at = @At("TAIL")
-    )
-    public void makeUndergroundWorld(ChunkRegion region, StructureAccessor structures, NoiseConfig noiseConfig, Chunk chunk, CallbackInfo ci) {
-
-
-        //Skip if this is not Overworld
-        if (!region.toServerWorld().getRegistryKey().equals(World.OVERWORLD)) {
-            return;
-        }
-
-
-        int bottomY = chunk.getBottomY();
-        int topY = chunk.getTopYInclusive();
-
-        int chunkStartX = chunk.getPos().getStartX();
-        int chunkStartZ = chunk.getPos().getStartZ();
-
-        for (int y = bottomY; y <= topY; y++) {
-            for (int x = 0; x < 16; x++) {
-                for (int z = 0; z < 16; z++) {
-                    BlockPos pos = new BlockPos(chunkStartX + x, y, chunkStartZ + z);
-                    if (y == bottomY || y == topY) {
-                        chunk.setBlockState(pos, Blocks.BEDROCK.getDefaultState(), false);
-                    } else {
-                        if (y>55&&chunk.getBlockState(pos).getBlock() == Blocks.AIR) {
-                            chunk.setBlockState(pos, Blocks.STONE.getDefaultState(), false);
-                        }
-                    }
-                }
-            }
-        }
-
-
-    }
 
 
     @Inject(method = "populateEntities", at = @At("TAIL"))
