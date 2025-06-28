@@ -27,6 +27,10 @@ public class ChunkGeneratorMixin {
         if (!world.toServerWorld().getRegistryKey().equals(World.OVERWORLD)) {
             return;
         }
+        //Skip flat world type
+        if (world.toServerWorld().isFlat()) {
+            return;
+        }
 
 
         int bottomY = chunk.getBottomY();
