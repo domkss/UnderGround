@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "DED",
+    "RMR",
+    "AOA"
+  ],
+  "key": {
+    "D": "minecraft:diamond",
+    "E": "minecraft:echo_shard",
+    "R": "minecraft:redstone_block",
+    "M": "underground:mining_core_upgrade_smithing_template",
+    "A": "minecraft:amethyst_shard",
+    "O": "minecraft:obsidian"
+  },
+  "result": {
+    "id": "underground:mining_core_upgrade_smithing_template",
+    "count": 2
+  }
+}

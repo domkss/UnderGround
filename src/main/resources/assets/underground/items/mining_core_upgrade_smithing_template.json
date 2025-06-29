@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "underground:item/mining_core_upgrade_smithing_template"
+  }
+}

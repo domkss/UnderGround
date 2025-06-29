@@ -6,5 +6,5 @@
     "count": 1,
     "id": "underground:matrix_pickaxe"
   },
-  "template": "minecraft:netherite_upgrade_smithing_template"
+  "template": "underground:mining_core_upgrade_smithing_template"
 }

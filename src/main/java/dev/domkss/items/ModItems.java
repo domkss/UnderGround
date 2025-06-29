@@ -22,6 +22,7 @@ public class ModItems {
     public static Item COPPER_ROD;
     public static Item RADIOACTIVE_WATER_BUCKET;
     public static Item STAT_UPGRADE;
+    public static Item MINING_CORE_UPGRADE;
     public static Item MATRIX_PICKAXE;
 
     static {
@@ -29,6 +30,7 @@ public class ModItems {
         RADIOACTIVE_WATER_BUCKET = register(RadioactiveWaterBucketItem::new);
         STAT_UPGRADE = register(StatUpgradeItem::new);
         MATRIX_PICKAXE = register(MatrixPickaxeItem::new);
+        MINING_CORE_UPGRADE = register(MiningCoreUpgradeItem::new);
     }
 
 

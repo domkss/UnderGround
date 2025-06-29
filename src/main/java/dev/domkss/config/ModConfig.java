@@ -38,6 +38,9 @@ public class ModConfig {
     @ConfigField
     private Float statUpgradeSpawnChance = 0.02f;
 
+    @ConfigField
+    private Float miningCoreUpgradeSpawnChance = 0.04f;
+
     public BlockPos getSpawnPos() {
         String[] positions = spawnPos.split(",");
         if (positions.length < 3) return new BlockPos(0, 60, 0);
@@ -85,5 +88,9 @@ public class ModConfig {
 
     public Float getStatUpgradeSpawnChance() {
         return statUpgradeSpawnChance;
+    }
+
+    public Float getMiningCoreUpgradeSpawnChance() {
+        return miningCoreUpgradeSpawnChance;
     }
 }
