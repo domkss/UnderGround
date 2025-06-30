@@ -2,6 +2,7 @@ package dev.domkss;
 
 import dev.domkss.blocks.ModBlocks;
 import dev.domkss.config.ModConfig;
+import dev.domkss.effects.ModStatusEffects;
 import dev.domkss.items.ModItems;
 import dev.domkss.jconfiglib.ConfigLoader;
 import dev.domkss.networking.ServerNetworkHandler;
@@ -32,6 +33,7 @@ public class UnderGround implements ModInitializer {
 
         ModBlocks.registerAll();
         ModItems.registerAll();
+        ModStatusEffects.registerAll();
         ServerNetworkHandler.register();
 
         LOGGER.info("Successfully loaded!");

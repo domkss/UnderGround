@@ -3,6 +3,7 @@ package dev.domkss.mixin.entity;
 import com.mojang.datafixers.util.Pair;
 import dev.domkss.UnderGround;
 import dev.domkss.blocks.fluids.ModFluids;
+import dev.domkss.effects.ModStatusEffects;
 import dev.domkss.persistance.PersistentWorldData;
 import dev.domkss.persistance.PlayerStatManager;
 import net.minecraft.entity.Entity;
@@ -64,9 +65,10 @@ public abstract class ServerPlayerEntityMixin extends Entity {
 
         if (fluid.isOf(ModFluids.STILL_RADIOACTIVE_WATER) || fluid.isOf(ModFluids.FLOWING_RADIOACTIVE_WATER)) {
 
-            if (exposureTime >= UnderGround.config.getMaxTickNumberOfRadioactiveWaterExposure()) {
-                LivingEntity player = (LivingEntity) (Object) this;
-                if (!player.hasStatusEffect(StatusEffects.POISON)) {
+            LivingEntity player = (LivingEntity) (Object) this;
+            Integer maxExposureTime = UnderGround.config.getMaxTickNumberOfRadioactiveWaterExposure();
+
+            if (exposureTime >= maxExposureTime) {
 
                     //Kill the player if on half hearth
                     if (player.getHealth() <= 1.0F) {
@@ -78,12 +80,27 @@ public abstract class ServerPlayerEntityMixin extends Entity {
                         DamageSource damageSource = new DamageSource(radiationDamageType);
                         player.damage(this.getServerWorld(), damageSource, 1000.0F);
                     } else {
-                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 200, 0));
-                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 0));
-                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0));
+                        if(!player.hasStatusEffect(ModStatusEffects.RADIATION_EFFECT)) {
+                          if(exposureTime>maxExposureTime*12){
+                              player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RADIATION_EFFECT, 200, 4));
+                          }else if(exposureTime>maxExposureTime*6){
+                              player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RADIATION_EFFECT, 200, 3));
+                          }else if(exposureTime>maxExposureTime*3){
+                              player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RADIATION_EFFECT, 200, 2));
+                          }else {
+                              player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RADIATION_EFFECT, 200, 1));
+                          }
+                        }
+
+                        if(!player.hasStatusEffect(StatusEffects.SLOWNESS))
+                            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 0));
+                        if(!player.hasStatusEffect(StatusEffects.NAUSEA))
+                            player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0));
                     }
 
-                }
+            }else{
+                if(!player.hasStatusEffect(ModStatusEffects.RADIATION_EFFECT))
+                    player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RADIATION_EFFECT,200,0));
             }
 
             if (exposureTime + 1 < Integer.MAX_VALUE) {
