@@ -55,7 +55,8 @@ public class PlayerStatManager {
         HEALTH("health"),
         ARMOR("armor"),
         SPEED("speed"),
-        HASTE("haste");
+        HASTE("haste"),
+        RADIATION_RESISTANCE("resistance");
 
         private final String key;
 

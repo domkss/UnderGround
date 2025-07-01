@@ -24,6 +24,8 @@ public record SkillsDataPayload(
             buf.writeInt(payload.skillsData.speed.getSecond());
             buf.writeInt(payload.skillsData.haste.getFirst());
             buf.writeInt(payload.skillsData.haste.getSecond());
+            buf.writeInt(payload.skillsData.radiation_resistance.getFirst());
+            buf.writeInt(payload.skillsData.radiation_resistance.getSecond());
 
         }
 
@@ -41,8 +43,11 @@ public record SkillsDataPayload(
             int bonus_haste = buf.readInt();
             int max_bonus_haste = buf.readInt();
 
-            return new SkillsDataPayload(new SkillsData(Pair.of(bonus_health,max_bonus_health), Pair.of(bonus_armor,max_bonus_armor),
-                    Pair.of(bonus_speed,max_bonus_speed), Pair.of(bonus_haste,max_bonus_haste)));
+            int bonus_radiation_resistance = buf.readInt();
+            int max_radiation_resistance = buf.readInt();
+
+            return new SkillsDataPayload(new SkillsData(Pair.of(bonus_health, max_bonus_health), Pair.of(bonus_armor, max_bonus_armor),
+                    Pair.of(bonus_speed, max_bonus_speed), Pair.of(bonus_haste, max_bonus_haste), Pair.of(bonus_radiation_resistance, max_radiation_resistance)));
         }
     };
 
@@ -53,7 +58,10 @@ public record SkillsDataPayload(
         return ID;
     }
 
-    public record SkillsData(Pair<Integer, Integer> health, Pair<Integer, Integer> armor, Pair<Integer, Integer> speed, Pair<Integer, Integer> haste) {}
+    public record SkillsData(Pair<Integer, Integer> health, Pair<Integer, Integer> armor,
+                             Pair<Integer, Integer> speed, Pair<Integer, Integer> haste,
+                             Pair<Integer, Integer> radiation_resistance) {
+    }
 }
 
 

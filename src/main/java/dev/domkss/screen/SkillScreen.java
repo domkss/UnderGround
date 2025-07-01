@@ -1,6 +1,5 @@
 package dev.domkss.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.domkss.UnderGround;
 import dev.domkss.networking.PacketHandler;
 import dev.domkss.networking.payloads.RequestSkillsDataIncreasePayload;
@@ -31,7 +30,7 @@ public class SkillScreen extends Screen {
         stats.add(new StatEntry("Armor", skillsData.armor().getFirst(), skillsData.armor().getSecond(), Identifier.of("minecraft", "textures/item/diamond_chestplate.png")));
         stats.add(new StatEntry("Speed", skillsData.speed().getFirst(), skillsData.speed().getSecond(), Identifier.of("minecraft", "textures/mob_effect/speed.png")));
         stats.add(new StatEntry("Haste", skillsData.haste().getFirst(), skillsData.haste().getSecond(), Identifier.of("minecraft", "textures/mob_effect/haste.png")));
-
+        stats.add(new StatEntry("Resistance", skillsData.radiation_resistance().getFirst(), skillsData.radiation_resistance().getSecond(), Identifier.of(UnderGround.MOD_ID, "textures/mob_effect/radiation_effect.png")));
     }
 
     @Override
@@ -104,17 +103,17 @@ public class SkillScreen extends Screen {
     private void drawStatEntry(DrawContext context, StatEntry entry, int x, int y) {
 
         // Background
-        context.fill(x, y, x + 130, y + 29, 0x3fd6d6d4);
+        context.fill(x, y, x + 140, y + 29, 0x3fd6d6d4);
 
         // Icon
         context.drawTexture(RenderLayer::getGuiTextured, entry.icon, x + 3, y + 5, 0, 0, 16, 16, 16, 16);
 
         // Name and value
         context.drawText(textRenderer, Text.of(entry.name), x + 23, y + 10, 0x000000, false);
-        context.drawText(textRenderer, Text.of(String.valueOf(entry.value) + "/" + String.valueOf(entry.maxValue)), x + 70, y + 10, 0x000000, false);
+        context.drawText(textRenderer, Text.of(String.valueOf(entry.value) + "/" + String.valueOf(entry.maxValue)), x + 86, y + 10, 0x000000, false);
 
         //Plus button
-        context.drawTexture(RenderLayer::getGuiTextured, PLUS_BUTTON, x + 110, y + 10, 0, 0, 9, 9, 9, 9);
+        context.drawTexture(RenderLayer::getGuiTextured, PLUS_BUTTON, x + 120, y + 10, 0, 0, 9, 9, 9, 9);
 
     }
 
@@ -141,7 +140,7 @@ public class SkillScreen extends Screen {
             int y = contentStartY + (row * entryHeight) - (scrollOffset % entryHeight);
 
             // If click is inside + button area
-            if (mouseX >= x + 110 && mouseX <= x + 119 && mouseY >= y + 10 && mouseY <= y + 19) {
+            if (mouseX >= x + 120 && mouseX <= x + 129 && mouseY >= y + 10 && mouseY <= y + 19) {
                 if (stats.get(statIndex).value < stats.get(statIndex).maxValue) {
                     this.requestStatIncrease(stats.get(statIndex).name);
                     return true;

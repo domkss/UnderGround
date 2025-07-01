@@ -65,8 +65,17 @@ public abstract class ServerPlayerEntityMixin extends Entity {
 
         if (fluid.isOf(ModFluids.STILL_RADIOACTIVE_WATER) || fluid.isOf(ModFluids.FLOWING_RADIOACTIVE_WATER)) {
 
-            LivingEntity player = (LivingEntity) (Object) this;
+            ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
+
+            PlayerStatManager playerStatManager = new PlayerStatManager(player);
+
             Integer maxExposureTime = UnderGround.config.getMaxTickNumberOfRadioactiveWaterExposure();
+
+            int bonus_radiation_resistance = playerStatManager.getStat(PlayerStatManager.StatType.RADIATION_RESISTANCE);
+            if(bonus_radiation_resistance>=1)
+                maxExposureTime *= (1+bonus_radiation_resistance/2);
+
+
 
             if (exposureTime >= maxExposureTime) {
 

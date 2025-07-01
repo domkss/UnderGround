@@ -10,7 +10,6 @@ import dev.domkss.persistance.PlayerStatManager;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -33,6 +32,7 @@ public class ServerNetworkHandler {
             int armor = playerStatManager.getStat(PlayerStatManager.StatType.ARMOR);
             int speed = playerStatManager.getStat(PlayerStatManager.StatType.SPEED);
             int haste = playerStatManager.getStat(PlayerStatManager.StatType.HASTE);
+            int radiation_resistance = playerStatManager.getStat(PlayerStatManager.StatType.RADIATION_RESISTANCE);
 
 
             PacketHandler.sendToClient(player, new SkillsDataPayload(
@@ -40,7 +40,8 @@ public class ServerNetworkHandler {
                             Pair.of(health, UnderGround.config.getMaxBonusHealth()),
                             Pair.of(armor, UnderGround.config.getMaxBonusArmor()),
                             Pair.of(speed, UnderGround.config.getMaxBonusSpeed()),
-                            Pair.of(haste, UnderGround.config.getMaxBonusHaste()))));
+                            Pair.of(haste, UnderGround.config.getMaxBonusHaste()),
+                            Pair.of(radiation_resistance, UnderGround.config.getMaxBonusRadiationResistance()))));
         }
         ));
 
@@ -73,6 +74,7 @@ public class ServerNetworkHandler {
             case "armor" -> currentStat < UnderGround.config.getMaxBonusArmor();
             case "speed" -> currentStat < UnderGround.config.getMaxBonusSpeed();
             case "haste" -> currentStat < UnderGround.config.getMaxBonusHaste();
+            case "resistance" -> currentStat<UnderGround.config.getMaxBonusRadiationResistance();
             default -> false;
         };
     }

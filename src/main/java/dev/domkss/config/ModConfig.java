@@ -36,6 +36,9 @@ public class ModConfig {
     private Integer maxBonusHaste = 15;
 
     @ConfigField
+    private Integer maxBonusRadiationResistance = 15;
+
+    @ConfigField
     private Float statUpgradeSpawnChance = 0.02f;
 
     @ConfigField
@@ -84,6 +87,10 @@ public class ModConfig {
 
     public Integer getMaxBonusHaste() {
         return maxBonusHaste;
+    }
+
+    public Integer getMaxBonusRadiationResistance() {
+        return maxBonusRadiationResistance;
     }
 
     public Float getStatUpgradeSpawnChance() {
