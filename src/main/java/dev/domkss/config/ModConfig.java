@@ -6,13 +6,13 @@ import net.minecraft.util.math.BlockPos;
 public class ModConfig {
 
     @ConfigField
-    private String spawnPos = "0,60,0";
+    private String spawnPos = "0,80,0";
 
     @ConfigField
     private Integer spawnRadiusY = 5;
 
     @ConfigField
-    private Integer worldTopY = 80;
+    private Integer worldTopY = 100;
 
     @ConfigField
     private Boolean replaceUndergroundOceansWithRadioactiveWater = true;
