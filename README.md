@@ -1,5 +1,7 @@
 # 🪨 Underground
 
+![Main Image](https://cdn.modrinth.com/data/VVdGYcCf/images/7a0121c4dc0f3b5e1ba67b6878eb1d379488719b.png)
+
 **Buried alive. Survive the deep. Thrive in the stone.**
 
 **Underground** is a survival overhaul mod that flips the Minecraft world on its head—literally. Say goodbye to the surface. In this mod, players spawn deep underground, entombed in layers of stone, and must adapt to a world without sunlight, trees, or the safety of the open sky.
